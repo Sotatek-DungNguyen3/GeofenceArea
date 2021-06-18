@@ -1,5 +1,5 @@
 //
-//  GeoModel.swift
+//  GeofenceModel.swift
 //  GeofenceArea
 //
 //  Created by Nguyen Tan Dung on 18/06/2021.
@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-public class GeoModel: NSObject, Codable, MKAnnotation {
+public class GeofenceModel: NSObject, Codable, MKAnnotation {
     
     enum CodingKeys: String, CodingKey {
         case lat, long, radius, wifiName

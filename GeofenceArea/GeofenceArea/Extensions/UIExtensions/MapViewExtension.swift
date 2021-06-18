@@ -25,7 +25,7 @@ extension MKMapView {
         setRegion(region, animated: true)
     }
     
-    func addGeofence(geofence: GeoModel) {
+    func addGeofence(geofence: GeofenceModel) {
         addOverlay(MKCircle(center: geofence.coordinate, radius: geofence.radius))
         addAnnotation(geofence)
     }
