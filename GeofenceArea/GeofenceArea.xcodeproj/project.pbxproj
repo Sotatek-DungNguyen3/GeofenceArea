@@ -31,6 +31,10 @@
 		D45511FC267C59E300CE0C8F /* GeofencePresenterImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45511FB267C59E300CE0C8F /* GeofencePresenterImplement.swift */; };
 		D45511FE267CA97700CE0C8F /* GeofenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45511FD267CA97700CE0C8F /* GeofenceService.swift */; };
 		D4551202267CB64800CE0C8F /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4551201267CB64800CE0C8F /* AppPreferences.swift */; };
+		D455120A267CD42E00CE0C8F /* CreateAreaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4551208267CD42E00CE0C8F /* CreateAreaVC.swift */; };
+		D455120B267CD42E00CE0C8F /* CreateAreaVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4551209267CD42E00CE0C8F /* CreateAreaVC.xib */; };
+		D455120F267D5DFC00CE0C8F /* CreateAreaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455120D267D5DFC00CE0C8F /* CreateAreaCell.swift */; };
+		D4551210267D5DFC00CE0C8F /* CreateAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D455120E267D5DFC00CE0C8F /* CreateAreaCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +86,10 @@
 		D45511FB267C59E300CE0C8F /* GeofencePresenterImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofencePresenterImplement.swift; sourceTree = "<group>"; };
 		D45511FD267CA97700CE0C8F /* GeofenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceService.swift; sourceTree = "<group>"; };
 		D4551201267CB64800CE0C8F /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
+		D4551208267CD42E00CE0C8F /* CreateAreaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAreaVC.swift; sourceTree = "<group>"; };
+		D4551209267CD42E00CE0C8F /* CreateAreaVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateAreaVC.xib; sourceTree = "<group>"; };
+		D455120D267D5DFC00CE0C8F /* CreateAreaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAreaCell.swift; sourceTree = "<group>"; };
+		D455120E267D5DFC00CE0C8F /* CreateAreaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateAreaCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +197,7 @@
 		D45511CD267C3EDF00CE0C8F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D4551203267CD3FB00CE0C8F /* CreateAreaVC */,
 				D45511EB267C535000CE0C8F /* CustomNaviVC */,
 				D45511E2267C4AC500CE0C8F /* GeofenceVC */,
 				D45511E7267C4CBD00CE0C8F /* BaseVC.swift */,
@@ -217,6 +226,7 @@
 		D45511D0267C3F0900CE0C8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D455120C267D5DD100CE0C8F /* CreateAreaCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -289,6 +299,24 @@
 				D45511FD267CA97700CE0C8F /* GeofenceService.swift */,
 			);
 			path = GeofencePresenter;
+			sourceTree = "<group>";
+		};
+		D4551203267CD3FB00CE0C8F /* CreateAreaVC */ = {
+			isa = PBXGroup;
+			children = (
+				D4551208267CD42E00CE0C8F /* CreateAreaVC.swift */,
+				D4551209267CD42E00CE0C8F /* CreateAreaVC.xib */,
+			);
+			path = CreateAreaVC;
+			sourceTree = "<group>";
+		};
+		D455120C267D5DD100CE0C8F /* CreateAreaCell */ = {
+			isa = PBXGroup;
+			children = (
+				D455120D267D5DFC00CE0C8F /* CreateAreaCell.swift */,
+				D455120E267D5DFC00CE0C8F /* CreateAreaCell.xib */,
+			);
+			path = CreateAreaCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,6 +424,8 @@
 			files = (
 				D45511E6267C4AE900CE0C8F /* GeofenceVC.xib in Resources */,
 				D45511A8267C3E4200CE0C8F /* LaunchScreen.storyboard in Resources */,
+				D4551210267D5DFC00CE0C8F /* CreateAreaCell.xib in Resources */,
+				D455120B267CD42E00CE0C8F /* CreateAreaVC.xib in Resources */,
 				D45511A5267C3E4200CE0C8F /* Assets.xcassets in Resources */,
 				D45511A3267C3E3E00CE0C8F /* Main.storyboard in Resources */,
 			);
@@ -425,6 +455,7 @@
 				D45511DC267C410100CE0C8F /* GeofenceModel.swift in Sources */,
 				D45511EF267C540600CE0C8F /* Constants.swift in Sources */,
 				D45511D9267C40BD00CE0C8F /* MapViewExtension.swift in Sources */,
+				D455120A267CD42E00CE0C8F /* CreateAreaVC.swift in Sources */,
 				D455119C267C3E3E00CE0C8F /* AppDelegate.swift in Sources */,
 				D45511F9267C595000CE0C8F /* Enum.swift in Sources */,
 				D4551202267CB64800CE0C8F /* AppPreferences.swift in Sources */,
@@ -435,6 +466,7 @@
 				D45511FC267C59E300CE0C8F /* GeofencePresenterImplement.swift in Sources */,
 				D45511EA267C533600CE0C8F /* UIImageExtentsion.swift in Sources */,
 				D45511D3267C3FED00CE0C8F /* UIViewControllerExtension.swift in Sources */,
+				D455120F267D5DFC00CE0C8F /* CreateAreaCell.swift in Sources */,
 				D45511E5267C4AE900CE0C8F /* GeofenceVC.swift in Sources */,
 				D45511FE267CA97700CE0C8F /* GeofenceService.swift in Sources */,
 				D45511F7267C58E400CE0C8F /* Application.swift in Sources */,

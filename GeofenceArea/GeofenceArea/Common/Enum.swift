@@ -11,3 +11,8 @@ import Foundation
 enum VCType {
     case mapVC
 }
+
+enum CellType {
+    case radius
+    case wifiName
+}

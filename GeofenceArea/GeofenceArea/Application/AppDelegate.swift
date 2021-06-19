@@ -13,12 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let geofenceVC = GeofenceVC()
-        let navi = UINavigationController(rootViewController: geofenceVC)
-        navi.navigationBar.isHidden = true
-        self.window = UIWindow()
-        self.window?.makeKeyAndVisible()
-        self.window!.rootViewController = navi
+        window = UIWindow(frame: UIScreen.main.bounds)
+        Application.shared.setRoot(type: .mapVC)
         return true
     }
 }

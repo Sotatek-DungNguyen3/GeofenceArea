@@ -36,22 +36,42 @@ class GeofenceVC: BaseVC {
         super.init(coder: aDecoder)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        mapView.showsUserLocation = true
+    }
+    
     override func setupView() {
         super.setupView()
-        mapView.delegate = self
+        screenName = "Geofence area"
+        self.title = screenName
         presenter?.onViewDidLoad(view: self)
-        setupNavigation()
+        setupLocation()
+        setupObserver()
         statusLabel.text = ""
         wifiNameLabel.text = ""
     }
     
-    private func setupNavigation() {
-        self.title = "Geofence Area"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "my_location_white"), style: .plain, target: self, action: #selector(tappedMyLocation))
-        let editButton = UIBarButtonItem(image: UIImage(named: "edit"), style: .plain, target: self, action: #selector(tappedEdit))
-        editButton.isAccessibilityElement = true
-        editButton.accessibilityLabel = "EditButton"
-        navigationItem.rightBarButtonItem = editButton
+    override func setupNavigation() {
+        super.setupNavigation()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_current_location"), style: .plain, target: self, action: #selector(tappedMyLocation))
+        let createAreaButton = UIBarButtonItem(image: UIImage(named: "ic_open_add_geofence"), style: .plain, target: self, action: #selector(tappedCreateArea))
+        createAreaButton.isAccessibilityElement = true
+        createAreaButton.accessibilityLabel = "createAreaButton"
+        navigationItem.rightBarButtonItem = createAreaButton
+    }
+    
+    private func setupLocation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestAlwaysAuthorization()
+            locationManager.requestWhenInUseAuthorization()
+        }
+        mapView.zoomToUserLocation(locationManager, animated: false)
+        DispatchQueue.main.async { [weak self] in
+            self?.locationManager.startUpdatingLocation()
+        }
     }
     
     private func setupObserver() {
@@ -62,8 +82,9 @@ class GeofenceVC: BaseVC {
         mapView.zoomToUserLocation()
     }
     
-    @objc func tappedEdit() {
-        
+    @objc func tappedCreateArea() {
+        let editVC = CreateAreaVC()
+        self.navigationController?.pushViewController(editVC, animated: true)
     }
     
     @objc func didChangeWifi() {
@@ -112,11 +133,13 @@ extension GeofenceVC: CLLocationManagerDelegate {
             mapView.zoomToUserLocation()
             locationManager.startUpdatingLocation()
         case .denied, .restricted:
-            self.presentAlert(title: "Need permission", message: "Please allow location access in Settings", actionTitle: "Go to Settings", actionHandler: { action in
+            self.showAlert(title: "Need permission", message: "Please allow location access in Settings", actionTitle: "Go to Settings", actionHandler: { action in
                 UIApplication.shared.open(NSURL(string: UIApplication.openSettingsURLString)! as URL)
             })
-        default:
-            break
+        case .notDetermined:
+            print("Location status not determined.")
+        @unknown default:
+            fatalError()
         }
     }
     

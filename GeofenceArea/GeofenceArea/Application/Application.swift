@@ -12,12 +12,9 @@ import UIKit
 class Application: NSObject {
     
     static let shared: Application = Application()
-    
     let application = UIApplication.shared
 }
 
-
-// MARK: - Window
 extension Application {
     
     var delegate: AppDelegate {
@@ -37,28 +34,12 @@ extension Application {
         }
     }
     
-    func setRoot(_ viewController: UIViewController, animated: Bool = false, completion: (() -> Void)? = nil) {
-        guard let window = self.window else { return }
-        if animated {
-            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                let oldState: Bool = UIView.areAnimationsEnabled
-                UIView.setAnimationsEnabled(false)
-                self.root = viewController
-                UIView.setAnimationsEnabled(oldState)
-                window.makeKeyAndVisible()
-            }, completion: { (_) in
-                completion?()
-            })
-        } else {
-            root = viewController
-            window.makeKeyAndVisible()
-            completion?()
-        }
-    }
-    
-    public func switchRoot(type: VCType, animated: Bool = false, completion: (() -> Void)? = nil) {
+    func setRoot(type: VCType, completion: (() -> Void)? = nil) {
         let vc = viewController(type: type)
-        setRoot(vc, animated: animated, completion: completion)
+        guard let window = self.window else { return }
+        root = vc
+        window.makeKeyAndVisible()
+        completion?()
     }
     
     private func viewController(type: VCType) -> UIViewController {

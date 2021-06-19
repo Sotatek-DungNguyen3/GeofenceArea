@@ -8,13 +8,19 @@
 import UIKit
 
 class BaseVC: UIViewController {
-
+    
+    var screenName = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
     }
 
     func setupView() {
+        setupNavigation()
+    }
+    
+    func setupNavigation() {
         
     }
 
