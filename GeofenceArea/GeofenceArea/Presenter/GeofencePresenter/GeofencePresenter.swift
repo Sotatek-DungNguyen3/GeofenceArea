@@ -11,7 +11,7 @@ import SystemConfiguration.CaptiveNetwork
 protocol GeofenceImplement {
     
     @discardableResult func checkUpdateGeofenceStatus() -> Bool
-    func onViewDidLoad(view: GeofenceViewPresenter)
+    func onViewDidLoad(view: GeofenceViewImplement)
     func getGeofence() -> GeofenceModel?
     func updateGeofence(_ geofence: GeofenceModel?)
     func isInsideGeofenceArea(currentLocation: CLLocationCoordinate2D, geofence: GeofenceModel?) -> Bool
@@ -19,16 +19,16 @@ protocol GeofenceImplement {
     func getWiFiSsid() -> String?
 }
 
-class GeofencePresenterImplement: GeofenceImplement {
+class GeofencePresenter: GeofenceImplement {
     
-    private weak var view: GeofenceViewPresenter?
+    private weak var view: GeofenceViewImplement?
     private let service: GeofenceService
     
     init(service: GeofenceService) {
         self.service = service
     }
     
-    func onViewDidLoad(view: GeofenceViewPresenter) {
+    func onViewDidLoad(view: GeofenceViewImplement) {
         self.view = view
         self.updateGeofence(nil)
     }
@@ -62,7 +62,7 @@ class GeofencePresenterImplement: GeofenceImplement {
     }
 }
 
-extension GeofencePresenterImplement {
+extension GeofencePresenter {
 
     public func getWiFiSsid() -> String? {
         var ssid: String?

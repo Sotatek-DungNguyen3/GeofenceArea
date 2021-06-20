@@ -8,26 +8,26 @@
 import UIKit
 import MapKit
 
-protocol GeofenceViewPresenter: class {
+protocol GeofenceViewImplement: class {
     func updateGeofenceInMap(geofence: GeofenceModel?)
     func updateGeofenceStatus(geofence: GeofenceModel?)
     func startMonitoring(geofence: GeofenceModel?)
 }
 
 class GeofenceVC: BaseVC {
-   
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var wifiNameLabel: UILabel!
     
     private var locationManager = CLLocationManager()
-    private var presenter: GeofencePresenterImplement?
+    private var presenter: GeofencePresenter?
     
     init() {
         super.init(nibName: "GeofenceVC", bundle: nil)
     }
     
-    init(presenter: GeofencePresenterImplement) {
+    init(presenter: GeofencePresenter) {
         self.presenter = presenter
         super.init(nibName: "GeofenceVC", bundle: nil)
     }
@@ -83,8 +83,11 @@ class GeofenceVC: BaseVC {
     }
     
     @objc func tappedCreateArea() {
-        let editVC = CreateAreaVC()
-        self.navigationController?.pushViewController(editVC, animated: true)
+        let service = GeofenceService()
+        let presenter = CreateAreaPresenter(service: service)
+        let createAreaVC = CreateAreaVC(presenter: presenter)
+        createAreaVC.delegate = self
+        self.navigationController?.pushViewController(createAreaVC, animated: true)
     }
     
     @objc func didChangeWifi() {
@@ -93,7 +96,7 @@ class GeofenceVC: BaseVC {
 
 }
 
-extension GeofenceVC: GeofenceViewPresenter {
+extension GeofenceVC: GeofenceViewImplement {
     
     func updateGeofenceInMap(geofence: GeofenceModel?) {
         guard let geofence = geofence else { return }
@@ -111,7 +114,6 @@ extension GeofenceVC: GeofenceViewPresenter {
         let isMatchWifi = presenter.isMatchWifiName(geofence: geofence, currentWifiName: currentWifiName)
         let isInsideArea = isInsideCircle || isMatchWifi
         statusLabel.text = "Status: \(isInsideArea ? "Inside" : "Outside")"
-        statusLabel.textColor = isInsideArea ? .blue : .red
     }
     
     func startMonitoring(geofence: GeofenceModel?) {
@@ -133,7 +135,7 @@ extension GeofenceVC: CLLocationManagerDelegate {
             mapView.zoomToUserLocation()
             locationManager.startUpdatingLocation()
         case .denied, .restricted:
-            self.showAlert(title: "Need permission", message: "Please allow location access in Settings", actionTitle: "Go to Settings", actionHandler: { action in
+            self.showAlert(title: "Permission denied", message: "Please go to Settings and allow location access", actionTitle: "Go to Settings", actionHandler: { action in
                 UIApplication.shared.open(NSURL(string: UIApplication.openSettingsURLString)! as URL)
             })
         case .notDetermined:
@@ -168,5 +170,13 @@ extension GeofenceVC: MKMapViewDelegate {
             return circleRenderer
         }
         return MKOverlayRenderer(overlay: overlay)
+    }
+}
+
+extension GeofenceVC: CreateAreaPresenterDelegate {
+    func tappedCreateAreaViewController(coordinate: CLLocationCoordinate2D, radius: Double, wifiName: String) {
+        let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)
+        let geofence = GeofenceModel(coordinate: coordinate, radius: clampedRadius, wifiName: wifiName)
+        presenter?.updateGeofence(geofence)
     }
 }

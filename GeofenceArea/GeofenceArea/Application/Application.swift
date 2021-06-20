@@ -46,7 +46,7 @@ extension Application {
         switch type {
         case .mapVC:
             let service = GeofenceService()
-            let presenter = GeofencePresenterImplement(service: service)
+            let presenter = GeofencePresenter(service: service)
             let geofenceVC = GeofenceVC(presenter: presenter)
             let nav = CustomNaviVC(rootViewController: geofenceVC)
             nav.setNavigationBarHidden(false, animated: false)
