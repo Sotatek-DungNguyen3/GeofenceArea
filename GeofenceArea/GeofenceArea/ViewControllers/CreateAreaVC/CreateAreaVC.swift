@@ -57,7 +57,7 @@ class CreateAreaVC: BaseVC {
         super.setupNavigation()
         screenName = "Create area"
         self.title = screenName
-        let createButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(tappedCreate))
+        let createButton = UIBarButtonItem(image: UIImage(named: "ic_saved"), style: .plain, target: self, action: #selector(tappedCreate))
         createButton.isAccessibilityElement = true
         createButton.accessibilityLabel = "CreateComplete"
         navigationItem.rightBarButtonItem = createButton
