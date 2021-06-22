@@ -102,7 +102,7 @@ class GeofenceVC: BaseVC {
 extension GeofenceVC: GeofenceViewImplement {
     func updateGeofenceInMap(geofence: GeofenceModel?) {
         guard let geofence = geofence else { return }
-        wifiNameLabel.text = "Wifi name:" + "\(geofence.wifiName)"
+        wifiNameLabel.text = "Wifi name: " + "\(geofence.wifiName)"
         mapView.removeAllGeofences()
         mapView.addGeofence(geofence: geofence)
         startMonitoring(geofence: geofence)
@@ -179,7 +179,7 @@ extension GeofenceVC: MKMapViewDelegate {
 extension GeofenceVC: CreateAreaPresenterDelegate {
     func tappedCreateAreaViewController(coordinate: CLLocationCoordinate2D, radius: Double, wifiName: String) {
         let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)
-        let geofence = GeofenceModel(coordinate: coordinate, radius: clampedRadius, wifiName: wifiName)
+        let geofence = GeofenceModel(coordinate: coordinate, radius: clampedRadius, wifiName: wifiName == "" ? "None" : wifiName)
         presenter?.updateGeofence(geofence)
     }
 }
