@@ -9,11 +9,6 @@ import UIKit
 import MapKit
 
 public class GeofenceModel: NSObject, Codable, MKAnnotation {
-    
-    enum CodingKeys: String, CodingKey {
-        case lat, long, radius, wifiName
-    }
-    
     public let coordinate: CLLocationCoordinate2D
     public let radius: CLLocationDistance
     public let wifiName: String

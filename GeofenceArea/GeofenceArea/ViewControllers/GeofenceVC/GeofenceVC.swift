@@ -15,7 +15,6 @@ protocol GeofenceViewImplement: class {
 }
 
 class GeofenceVC: BaseVC {
-    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var wifiNameLabel: UILabel!
@@ -45,9 +44,9 @@ class GeofenceVC: BaseVC {
         super.setupView()
         screenName = "Geofence area"
         self.title = screenName
-        presenter?.onViewDidLoad(view: self)
         setupLocation()
         setupObserver()
+        presenter?.onViewDidLoad(view: self)
         statusLabel.text = ""
         wifiNameLabel.text = ""
     }
@@ -62,15 +61,15 @@ class GeofenceVC: BaseVC {
     }
     
     private func setupLocation() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestAlwaysAuthorization()
-            locationManager.requestWhenInUseAuthorization()
-        }
-        mapView.zoomToUserLocation(locationManager, animated: false)
-        DispatchQueue.main.async { [weak self] in
-            self?.locationManager.startUpdatingLocation()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            mapView.zoomToUserLocation(locationManager, animated: false)
+            DispatchQueue.main.async { [weak self] in
+                self?.locationManager.startUpdatingLocation()
+            }
         }
     }
     
@@ -78,10 +77,12 @@ class GeofenceVC: BaseVC {
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeWifi), name: NSNotification.Name(rawValue: Constants.NotificationKey.keyNotification), object: nil)
     }
     
+    // Move to current location
     @objc func tappedMyLocation() {
         mapView.zoomToUserLocation()
     }
     
+    // Open Create geofence area screen
     @objc func tappedCreateArea() {
         let service = GeofenceService()
         let presenter = CreateAreaPresenter(service: service)
@@ -90,14 +91,15 @@ class GeofenceVC: BaseVC {
         self.navigationController?.pushViewController(createAreaVC, animated: true)
     }
     
+    // Check if wifi status is changed
     @objc func didChangeWifi() {
         presenter?.checkUpdateGeofenceStatus()
     }
 
 }
 
+// MARK: - GeofenceViewImplement
 extension GeofenceVC: GeofenceViewImplement {
-    
     func updateGeofenceInMap(geofence: GeofenceModel?) {
         guard let geofence = geofence else { return }
         wifiNameLabel.text = "Wifi name:" + "\(geofence.wifiName)"
@@ -126,8 +128,8 @@ extension GeofenceVC: GeofenceViewImplement {
     }
 }
 
+// MARK: - LocationManagerDelegate
 extension GeofenceVC: CLLocationManagerDelegate {
-    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
@@ -155,8 +157,8 @@ extension GeofenceVC: CLLocationManagerDelegate {
     
 }
 
+// MARK: - MKMapViewDelegate
 extension GeofenceVC: MKMapViewDelegate {
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         return nil
     }
@@ -173,6 +175,7 @@ extension GeofenceVC: MKMapViewDelegate {
     }
 }
 
+// MARK: - CreateAreaPresenterDelegate
 extension GeofenceVC: CreateAreaPresenterDelegate {
     func tappedCreateAreaViewController(coordinate: CLLocationCoordinate2D, radius: Double, wifiName: String) {
         let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)

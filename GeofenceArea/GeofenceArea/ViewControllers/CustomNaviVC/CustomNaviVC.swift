@@ -8,7 +8,6 @@
 import UIKit
 
 class CustomNaviVC: UINavigationController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -27,8 +26,8 @@ class CustomNaviVC: UINavigationController {
 
 }
 
+// MARK: UINavigationControllerDelegate
 extension CustomNaviVC: UINavigationControllerDelegate {
-    
     func navigationController(_ navigationController: UINavigationController,
                               willShow viewController: UIViewController, animated: Bool) {
         if let currentVC = self.topViewController {

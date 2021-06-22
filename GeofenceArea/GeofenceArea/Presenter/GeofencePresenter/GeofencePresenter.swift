@@ -33,6 +33,19 @@ class GeofencePresenter: GeofenceImplement {
         self.updateGeofence(nil)
     }
     
+    func getWiFiSsid() -> String? {
+        var ssid: String?
+        if let interfaces = CNCopySupportedInterfaces() as NSArray? {
+            for interface in interfaces {
+                if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
+                    ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
+                    break
+                }
+            }
+        }
+        return ssid
+    }
+    
     func getGeofence() -> GeofenceModel? {
         return service.getGeofence()
     }
@@ -62,19 +75,5 @@ class GeofencePresenter: GeofenceImplement {
     }
 }
 
-extension GeofencePresenter {
 
-    public func getWiFiSsid() -> String? {
-        var ssid: String?
-        if let interfaces = CNCopySupportedInterfaces() as NSArray? {
-            for interface in interfaces {
-                if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
-                    ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
-                    break
-                }
-            }
-        }
-        return ssid
-    }
-}
 

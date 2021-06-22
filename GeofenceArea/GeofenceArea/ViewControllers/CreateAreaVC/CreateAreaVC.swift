@@ -17,7 +17,6 @@ protocol CreateAreaPresenterDelegate: class {
 }
 
 class CreateAreaVC: BaseVC {
-    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var contentTable: UITableView!
     
@@ -64,19 +63,21 @@ class CreateAreaVC: BaseVC {
     }
     
     private func setupLocation() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         mapView.zoomToUserLocation(locationManager, animated: false)
         DispatchQueue.main.async { [weak self] in
             self?.locationManager.startUpdatingLocation()
         }
     }
     
+    // Move to current location
     @IBAction func currentLocationButtonClicked(_ sender: Any) {
         dismissKeyboard()
         mapView.zoomToUserLocation()
     }
     
+    // Create new geofence area
     @objc func tappedCreate() {
         dismissKeyboard()
         let radius = Double(radius) ?? 1000.0
@@ -86,8 +87,8 @@ class CreateAreaVC: BaseVC {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension CreateAreaVC: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberCell
     }
@@ -109,6 +110,7 @@ extension CreateAreaVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - CreateAreaViewImplement
 extension CreateAreaVC: CreateAreaViewImplement {
     func updateUIWithModel(_ geofence: GeofenceModel) {
         geofenceModel = geofence
@@ -116,6 +118,7 @@ extension CreateAreaVC: CreateAreaViewImplement {
     }
 }
 
+// MARK: - LocationManagerDelegate
 extension CreateAreaVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {

@@ -16,3 +16,7 @@ enum CellType {
     case radius
     case wifiName
 }
+
+enum CodingKeys: String, CodingKey {
+    case lat, long, radius, wifiName
+}
